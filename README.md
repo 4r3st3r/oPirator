@@ -1,4 +1,4 @@
-# <img src='AIY_logo_blue.png' card_color='#022B4F' width='50' height='50' style='vertical-align:bottom'/> OperatorPi
+# OperatorPi
 This skill should allow for Picroft to start up when the phone is removed from the hook, and turn off when it is placed back on the hook. 
 
 TODO: Allow for a relay to be used to switch the speaker when the phone is on the hook. This will allow for a 'loudspeaker' to be used when the phone is down for alarms etc. BUT this will not allow the Mycroft to listen unless the phone is picked up.
