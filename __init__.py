@@ -49,17 +49,20 @@ class PicroftGoogleAiyVoicekit(MycroftSkill):
                            self.handle_listener_ended)
 
     def handle_button(self, message):
-        longpress_threshold = 2
+        press_threshold = 2
         if GPIO.event_detected(BUTTON):
             self.log.info("GPIO.event_detected")
             pressed_time = time.time()
-            while not GPIO.input(BUTTON):
-                time.sleep(0.2)
-            pressed_time = time.time() - pressed_time
-            if pressed_time < longpress_threshold:
+            if GPIO.input(BUTTON, GPIO.RISING):
+                pressed_time = time.time() - pressed_time
+                if pressed_time < press_threshold:
+                    self.bus.emit(Message("mycroft.mic.listen"))
+                else:
+                    self.bus.emit(Message("mycroft.stop"))
+            elif GPIO.input(BUTTON, GPIO.FALLING):
                 self.bus.emit(Message("mycroft.mic.listen"))
-            else:
-                self.bus.emit(Message("mycroft.stop"))
+
+
 
     def handle_listener_started(self, message):
         # code to excecute when active listening begins...
