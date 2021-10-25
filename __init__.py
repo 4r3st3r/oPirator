@@ -37,6 +37,7 @@ class PicroftGoogleAiyVoicekit(MycroftSkill):
             GPIO.setup(LED, GPIO.OUT)
             GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime = 500)
+            GPIO.add_event_detect(BUTTON, GPIO.RISING, bouncetime=500)
         except GPIO.error:
             self.log.warning("Can't initialize GPIO - skill will not load")
             self.speak_dialog("error.initialise")
