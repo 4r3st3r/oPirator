@@ -52,7 +52,7 @@ class OperatorPi(MycroftSkill):
 
         finally:
             self.schedule_repeating_event(self.handle_button,
-                                          None, 0.1, 'GoogleAIY')
+                                          None, 0.1, 'OperatorPi')
             self.add_event('recognizer_loop:record_begin',
                            self.handle_listener_started)
             self.add_event('recognizer_loop:record_end',
