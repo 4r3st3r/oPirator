@@ -28,6 +28,9 @@ LED = 25
 SPEAKER_RELAY = 22
 MIC_RELAY = 21
 
+global isOnHook
+isOnHook = True
+
 
 class OperatorPi(MycroftSkill):
     def __init__(self):
@@ -39,12 +42,11 @@ class OperatorPi(MycroftSkill):
             GPIO.setwarnings(False)
 
             GPIO.setup(LED, GPIO.OUT)
-            GPIO.setup(BUTTON, GPIO.IN)
+            GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             GPIO.setup(SPEAKER_RELAY, GPIO.OUT)
             GPIO.setup(MIC_RELAY, GPIO.OUT)
 
-            GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime=500)
-            GPIO.add_event_detect(BUTTON, GPIO.RISING, bouncetime=500)
+            GPIO.add_event_detect(BUTTON, GPIO.BOTH, bouncetime=500)
 
         except GPIO.error:
             self.log.warning("Can't initialize GPIO - skill will not load")
@@ -58,6 +60,43 @@ class OperatorPi(MycroftSkill):
             self.add_event('recognizer_loop:record_end',
                            self.handle_listener_ended)
 
+    def handle_button(self, message):
+        global isOnHook
+
+        if GPIO.input(BUTTON) == 0 and isOnHook is False:  # If phone now is on hook
+            self.log.info("GPIO.event_detected", GPIO.input(BUTTON))
+            isOnHook = True
+            # print("---- PHONE ON HOOK ----")
+            self.bus.emit(Message("mycroft.stop"))  # Stop all actions
+
+            if GPIO.input(BUTTON) == 0:
+                time.sleep(2)
+                if GPIO.input(BUTTON) == 0:
+                    GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
+                    # print('MIC OFF')
+                    GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
+                    # print('SPEAKER ON')
+
+        elif GPIO.input(BUTTON) == 1 and isOnHook is True:  # If phone is now off hook
+            self.log.info("GPIO.event_detected", GPIO.input(BUTTON))
+            isOnHook = False
+            # print("---- PHONE OFF HOOK ----")
+            self.bus.emit(Message("mycroft.mic.listen"))  # Start listening
+            GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
+            # print("MIC ON")
+
+    def handle_listener_started(self, message):  # code to execute when active listening begins...
+        GPIO.output(LED, GPIO.HIGH)
+
+    def handle_listener_ended(self, message):  # code to execute when listening stops
+        GPIO.output(LED, GPIO.LOW)
+
+
+def create_skill():
+    return OperatorPi()
+
+
+'''
     def handle_button(self, message):
         press_threshold = 2
 
@@ -81,13 +120,4 @@ class OperatorPi(MycroftSkill):
             elif GPIO.input(BUTTON, GPIO.FALLING):  # If button is now not being pressed
                 self.bus.emit(Message("mycroft.mic.listen"))  # Start listening
                 GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
-
-    def handle_listener_started(self, message):  # code to execute when active listening begins...
-        GPIO.output(LED, GPIO.HIGH)
-
-    def handle_listener_ended(self, message):  # code to execute when listening stops
-        GPIO.output(LED, GPIO.LOW)
-
-
-def create_skill():
-    return OperatorPi()
+'''
