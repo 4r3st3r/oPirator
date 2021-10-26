@@ -11,6 +11,8 @@ LED = 5
 SPEAKER_RELAY = 7
 MIC_RELAY = 11
 
+isOnHook = True
+
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
@@ -25,7 +27,8 @@ GPIO.add_event_detect(BUTTON, GPIO.BOTH, bouncetime=500)
 def handle_button():
         print("GPIO.event_detected", GPIO.input(BUTTON))
 
-        if GPIO.input(BUTTON) == 0:  # If button is being pressed
+        if GPIO.input(BUTTON) == 0 and isOnHook is False:  # If button is being pressed
+            isOnHook = True
             print("---- PHONE ON HOOK ----")
             print("mycroft.stop")  # Stop all actions
             GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
@@ -36,7 +39,8 @@ def handle_button():
                 GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
                 print('SPEAKER ON')
 
-        elif GPIO.input(BUTTON) == 1:  # If button is now not being pressed
+        elif GPIO.input(BUTTON) == 1 and isOnHook is True:  # If button is now not being pressed
+            isOnHook = False
             print("---- PHONE OFF HOOK ----")
             print("mycroft.mic.listen")  # Start listening
             GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
