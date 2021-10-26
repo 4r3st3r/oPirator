@@ -27,9 +27,9 @@ GPIO.add_event_detect(BUTTON, GPIO.BOTH, bouncetime=500)
 
 def handle_button():
     global isOnHook
-    print("GPIO.event_detected", GPIO.input(BUTTON))
 
     if GPIO.input(BUTTON) == 0 and isOnHook is False:  # If button is being pressed
+        print("GPIO.event_detected", GPIO.input(BUTTON))
         isOnHook = True
         print("---- PHONE ON HOOK ----")
         print("mycroft.stop")  # Stop all actions
@@ -42,6 +42,7 @@ def handle_button():
             print('SPEAKER ON')
 
     elif GPIO.input(BUTTON) == 1 and isOnHook is True:  # If button is now not being pressed
+        print("GPIO.event_detected", GPIO.input(BUTTON))
         isOnHook = False
         print("---- PHONE OFF HOOK ----")
         print("mycroft.mic.listen")  # Start listening
@@ -51,3 +52,4 @@ def handle_button():
 
 while True:
     handle_button()
+    time.sleep(0.1)
