@@ -33,13 +33,14 @@ def handle_button():
         isOnHook = True
         print("---- PHONE ON HOOK ----")
         print("mycroft.stop")  # Stop all actions
-        GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
-        print('MIC OFF')
-        time.sleep(2)
 
         if GPIO.input(BUTTON) == 0:
-            GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
-            print('SPEAKER ON')
+            time.sleep(2)
+            if GPIO.input(BUTTON) == 0:
+                GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
+                print('MIC OFF')
+                GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
+                print('SPEAKER ON')
 
     elif GPIO.input(BUTTON) == 1 and isOnHook is True:  # If button is now not being pressed
         print("GPIO.event_detected", GPIO.input(BUTTON))
