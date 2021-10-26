@@ -15,7 +15,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
 GPIO.setup(LED, GPIO.OUT)
-GPIO.setup(BUTTON, GPIO.IN)
+GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(SPEAKER_RELAY, GPIO.OUT)
 GPIO.setup(MIC_RELAY, GPIO.OUT)
 
