@@ -23,10 +23,7 @@ GPIO.add_event_detect(BUTTON, GPIO.BOTH, bouncetime=500)
 
 
 def handle_button():
-    if GPIO.event_detected(BUTTON):
-        print("GPIO.event_detected")
-
-        print(GPIO.input(BUTTON))
+        print("GPIO.event_detected", GPIO.input(BUTTON))
 
         if GPIO.input(BUTTON) == 0:  # If button is being pressed
             print("---- PHONE ON HOOK ----")
