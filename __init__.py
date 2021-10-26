@@ -25,22 +25,28 @@ import RPi.GPIO as GPIO
 # GPIO pins
 BUTTON = 23
 LED = 25
+RELAY = 22
 
-class PicroftGoogleAiyVoicekit(MycroftSkill):
+class OperatorPi(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
     def initialize(self):
         try:
-            GPIO.setmode(GPIO.BCM)
+            GPIO.setmode(GPIO.BOARD)
             GPIO.setwarnings(False)
+
             GPIO.setup(LED, GPIO.OUT)
-            GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-            GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime = 500)
+            GPIO.setup(BUTTON, GPIO.IN)
+            GPIO.setup(RELAY, GPIO.OUT)
+
+            GPIO.add_event_detect(BUTTON, GPIO.FALLING, bouncetime=500)
             GPIO.add_event_detect(BUTTON, GPIO.RISING, bouncetime=500)
+
         except GPIO.error:
             self.log.warning("Can't initialize GPIO - skill will not load")
             self.speak_dialog("error.initialise")
+
         finally:
             self.schedule_repeating_event(self.handle_button,
                                           None, 0.1, 'GoogleAIY')
@@ -51,19 +57,23 @@ class PicroftGoogleAiyVoicekit(MycroftSkill):
 
     def handle_button(self, message):
         press_threshold = 2
+
         if GPIO.event_detected(BUTTON):
             self.log.info("GPIO.event_detected")
             pressed_time = time.time()
-            if GPIO.input(BUTTON, GPIO.RISING):
-                pressed_time = time.time() - pressed_time
-                if pressed_time < press_threshold:
-                    self.bus.emit(Message("mycroft.mic.listen"))
-                else:
-                    self.bus.emit(Message("mycroft.stop"))
-            elif GPIO.input(BUTTON, GPIO.FALLING):
-                self.bus.emit(Message("mycroft.mic.listen"))
 
+            if GPIO.input(BUTTON, GPIO.RISING): # If button is being pressed
+                pressed_time = time.time() - pressed_time # Calculate the time it was pressed for
 
+                if pressed_time < press_threshold: # If short press:
+                    self.bus.emit(Message("mycroft.stop")) # Stop current action
+                    time.sleep(0.2) # Wait
+                    self.bus.emit(Message("mycroft.mic.listen")) # Start listening again for new command
+                else: # If long press
+                    self.bus.emit(Message("mycroft.stop")) # Stop all actions
+
+            elif GPIO.input(BUTTON, GPIO.FALLING): # If button is now not being pressed
+                self.bus.emit(Message("mycroft.mic.listen")) # Start listening
 
     def handle_listener_started(self, message):
         # code to excecute when active listening begins...
@@ -74,4 +84,4 @@ class PicroftGoogleAiyVoicekit(MycroftSkill):
 
 
 def create_skill():
-    return PicroftGoogleAiyVoicekit()
+    return OperatorPi()
