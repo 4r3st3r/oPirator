@@ -11,6 +11,7 @@ LED = 5
 SPEAKER_RELAY = 7
 MIC_RELAY = 11
 
+global isOnHook
 isOnHook = True
 
 GPIO.setmode(GPIO.BOARD)
