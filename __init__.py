@@ -23,10 +23,10 @@ import time
 import RPi.GPIO as GPIO
 
 # GPIO pins
-BUTTON = 23
-LED = 25
-SPEAKER_RELAY = 22
-MIC_RELAY = 21
+BUTTON = 11
+LED = 16
+SPEAKER_RELAY = 13
+MIC_RELAY = 15
 
 global isOnHook
 isOnHook = True
