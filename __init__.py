@@ -85,7 +85,7 @@ class OperatorPi(MycroftSkill):
     def handle_listener_started(self, message):  # code to execute when active listening begins...
         GPIO.output(LED, GPIO.HIGH)
 
-    def handle_listener_ended(self, message):
+    def handle_listener_ended(self, message):  # code to execute when listening stops
         GPIO.output(LED, GPIO.LOW)
 
 
