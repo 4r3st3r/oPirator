@@ -11,8 +11,8 @@ LED = 5
 SPEAKER_RELAY = 7
 MIC_RELAY = 11
 
-global isOnHook
-isOnHook = True
+global isOffHook
+isOffHook = True
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
@@ -26,7 +26,7 @@ GPIO.add_event_detect(BUTTON, GPIO.BOTH, bouncetime=500)
 
 
 def handle_button():
-    global isOnHook
+    global isOffHook
 
     if GPIO.input(BUTTON) == 0 and isOnHook is False:  # If button is being pressed
         print("GPIO.event_detected", GPIO.input(BUTTON))
