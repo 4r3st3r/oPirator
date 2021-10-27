@@ -52,5 +52,5 @@ def handle_button():
 
 
 while True:
-    handle_button()
-    time.sleep(0.1)
+    #handle_button()
+    #time.sleep(0.1)

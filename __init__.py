@@ -22,6 +22,8 @@ from mycroft.messagebus.message import Message
 import time
 import RPi.GPIO as GPIO
 
+__author__ = '4r3st3r'
+
 # GPIO pins
 BUTTON = 11
 LED = 16
@@ -66,26 +68,25 @@ class OperatorPi(MycroftSkill):
         if GPIO.input(BUTTON) == 0 and isOffHook is False:  # If phone now is on hook
             self.log.info("GPIO.event_detected", GPIO.input(BUTTON))
             isOffHook = True
-            # print("---- PHONE ON HOOK ----")
+            self.log.info("---- PHONE ON HOOK ----")
             self.bus.emit(Message("mycroft.stop"))  # Stop all actions
 
             if GPIO.input(BUTTON) == 0:
-                time.sleep(2)
+                time.sleep(1)
                 if GPIO.input(BUTTON) == 0:
-                    self.bus.emit(Message("mycroft.mic.mute"))
-                    GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
-                    # print('MIC OFF')
-                    GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
-                    # print('SPEAKER ON')
+                    time.sleep(1)
+                    if GPIO.input(BUTTON) == 0:
+                        self.bus.emit(Message("mycroft.mic.mute"))
+                        GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
+                        GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
 
         elif GPIO.input(BUTTON) == 1 and isOffHook is True:  # If phone is now off hook
             self.log.info("GPIO.event_detected", GPIO.input(BUTTON))
             isOffHook = False
-            # print("---- PHONE OFF HOOK ----")
+            self.log.info("---- PHONE OFF HOOK ----")
             self.bus.emit(Message("mycroft.mic.unmute"))
             self.bus.emit(Message("mycroft.mic.listen"))  # Start listening
             GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
-            # print("MIC ON")
 
     def handle_listener_started(self, message):  # code to execute when active listening begins...
         GPIO.output(LED, GPIO.HIGH)
