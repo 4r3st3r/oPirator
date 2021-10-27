@@ -1,5 +1,5 @@
 """
-OperatorPi
+oPirator
 Copyright (C) 2021 4r3st3r
 
 This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ global isOffHook
 isOffHook = True
 
 
-class OperatorPi(MycroftSkill):
+class oPirator(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
@@ -56,7 +56,7 @@ class OperatorPi(MycroftSkill):
 
         finally:
             self.schedule_repeating_event(self.handle_button,
-                                          None, 0.1, 'OperatorPi')
+                                          None, 0.1, 'oPirator')
             self.add_event('recognizer_loop:record_begin',
                            self.handle_listener_started)
             self.add_event('recognizer_loop:record_end',
@@ -96,7 +96,7 @@ class OperatorPi(MycroftSkill):
 
 
 def create_skill():
-    return OperatorPi()
+    return oPirator()
 
 
 '''
