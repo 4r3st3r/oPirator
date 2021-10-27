@@ -66,25 +66,25 @@ class OperatorPi(MycroftSkill):
         global isOffHook
 
         if GPIO.input(BUTTON) == 0 and isOffHook is False:  # If phone now is on hook
-            self.log.info("GPIO.event_detected", GPIO.input(BUTTON))
             isOffHook = True
+
             self.log.info("---- PHONE ON HOOK ----")
             self.bus.emit(Message("mycroft.stop"))  # Stop all actions
 
-            if GPIO.input(BUTTON) == 0:
-                time.sleep(1)
-                if GPIO.input(BUTTON) == 0:
+            if GPIO.input(BUTTON) == 0:      # Checks if the button has remained down or not
+                time.sleep(1)                # If it does not pass these tests, then it is only
+                if GPIO.input(BUTTON) == 0:  # Being reset, and so should not mute the mic
                     time.sleep(1)
                     if GPIO.input(BUTTON) == 0:
-                        self.bus.emit(Message("mycroft.mic.mute"))
+                        self.bus.emit(Message("mycroft.mic.mute"))  # Mute Mycroft
                         GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
                         GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
 
         elif GPIO.input(BUTTON) == 1 and isOffHook is True:  # If phone is now off hook
-            self.log.info("GPIO.event_detected", GPIO.input(BUTTON))
             isOffHook = False
+
             self.log.info("---- PHONE OFF HOOK ----")
-            self.bus.emit(Message("mycroft.mic.unmute"))
+            self.bus.emit(Message("mycroft.mic.unmute"))  # Unmute Mycroft
             self.bus.emit(Message("mycroft.mic.listen"))  # Start listening
             GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
 
