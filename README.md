@@ -1,4 +1,4 @@
-# OperatorPi
+# oPirator
  
 The aim of this git is to help in buidling an 'operator' based on Picroft, that is, a home assistant where privacy is of such importance that they cannot listen when you dont want them to. This is done by retrofitting a home-telephone, so that the home assistant will only listen when the reciver is picked up. I am using Mycroft.ai - or more specifially their open-source Raspberry Pi version Picroft - to provide the home assistant part of this. This git creates a skill within Picroft that activates the home assistant when the reciever is picked up, and shuts it off when it is placed back down. 
 
