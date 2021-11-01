@@ -4,7 +4,7 @@ The aim of this git is to help in building an 'operator' based on Picroft, that 
 
 This project uses [Mycroft.ai](https://mycroft.ai) - or more specifically their open-source Raspberry Pi version Picroft - to provide the home assistant part of this. Mycroft.ai is an open-source home assistant, and while they focus heavily on privacy and promise to *"ever sell your data or give you advertisements on our technology"* the aim of this git is to hack the Picroft system to enforce that policy and so create a home-assistant that only listens when you allow it to.  
 
-There are two parts to the build, the software and the hardware. The hardware part will obviously be different depending on the device you are retrofitting your Picroft into, but the basic idea is the same. The use of relays to allow access to the speaker and mic is optional - the oPirator Skill does already include commands to mic Mycroft's mic, but it may provide more peace of mind for those more security concerned. 
+There are two parts to the build, the software and the hardware. The hardware part will obviously be different depending on the device you are retrofitting your Picroft into, but the basic idea is the same. The use of relays to allow access to the speaker and mic is optional - the oPirator Skill does already include commands to mute Mycroft's mic, but it may provide more peace of mind for those more security concerned. 
 
 # Software
 1. Firstly, download, flash and install Picroft on your Raspberry Pi according to [the instructions](https://mycroft-ai.gitbook.io/docs/using-mycroft-ai/get-mycroft/picroft). 
@@ -51,5 +51,5 @@ Then you are all done! When you pick up the receiver you should simply be able t
 
 ![Circuit Diagram](https://i.ibb.co/qCbZgGx/Screenshot-2021-11-01-at-18-50-26.png)
 ________________________
-* TODO: Allow for a relay to be used to switch the speaker when the phone is on the hook. This will allow for a 'loudspeaker' to be used when the phone is down for alarms etc. BUT this will not allow the Mycroft to listen unless the phone is picked up.
+* TODO: Allow for a relay to be used to switch the speaker when the phone is on the hook. This will allow for a 'loudspeaker' to be used when the phone is down for alarms etc., but this will not allow the Mycroft to listen unless the phone is picked up.
  
