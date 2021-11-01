@@ -91,10 +91,12 @@ class oPirator(MycroftSkill):
             GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
 
     def handle_listener_started(self, message):  # code to execute when active listening begins...
+        GPIO.output(MIC_RELAY, GPIO.HIGH)  # Activate Microphone
         GPIO.output(LED, GPIO.HIGH)
         self.bus.emit(Message("mycroft.mic.unmute"))  # Unmute Mycroft
 
     def handle_listener_ended(self, message):  # code to execute when listening stops
+        GPIO.output(MIC_RELAY, GPIO.LOW)  # Activate Microphone
         GPIO.output(LED, GPIO.LOW)
         self.bus.emit(Message("mycroft.mic.mute"))  # Mute Mycroft
 
