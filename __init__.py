@@ -65,8 +65,8 @@ class oPirator(MycroftSkill):
     def handle_button(self, message):
         global isOffHook
 
-        if GPIO.input(BUTTON) == 0 and isOffHook is True:  # If phone now is on hook
-            isOffHook = False
+        if GPIO.input(BUTTON) == 1 and isOffHook is False:  # If phone now is on hook
+            isOffHook = True
 
             self.log.info("---- PHONE ON HOOK ----")
             self.bus.emit(Message("mycroft.stop"))  # Stop all actions
@@ -80,8 +80,8 @@ class oPirator(MycroftSkill):
                         GPIO.output(MIC_RELAY, GPIO.LOW)  # Deactivate mic
                         GPIO.output(SPEAKER_RELAY, GPIO.HIGH)  # Activate loudspeaker
 
-        elif GPIO.input(BUTTON) == 1 and isOffHook is False:  # If phone is now off hook
-            isOffHook = True
+        elif GPIO.input(BUTTON) == 0 and isOffHook is True:  # If phone is now off hook
+            isOffHook = False
 
             self.log.info("---- PHONE OFF HOOK ----")
             self.bus.emit(Message("mycroft.mic.unmute"))  # Unmute Mycroft
