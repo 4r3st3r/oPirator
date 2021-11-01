@@ -48,6 +48,8 @@ class oPirator(MycroftSkill):
             GPIO.setup(SPEAKER_RELAY, GPIO.OUT)
             GPIO.setup(MIC_RELAY, GPIO.OUT)
 
+            GPIO.output(MIC_RELAY, GPIO.LOW) # Set the mic to be off as default
+
             GPIO.add_event_detect(BUTTON, GPIO.BOTH, bouncetime=500)
 
         except GPIO.error:
