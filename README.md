@@ -49,7 +49,7 @@ Then you are all done! When you pick up the receiver you should simply be able t
 
 # Circuit Diagram
 
-![Circuit Diagram](https://ibb.co/5kq7jD2)
+![Circuit Diagram](https://i.ibb.co/qCbZgGx/Screenshot-2021-11-01-at-18-50-26.png)
 ________________________
 * TODO: Allow for a relay to be used to switch the speaker when the phone is on the hook. This will allow for a 'loudspeaker' to be used when the phone is down for alarms etc. BUT this will not allow the Mycroft to listen unless the phone is picked up.
  
