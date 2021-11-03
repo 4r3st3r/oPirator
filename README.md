@@ -44,7 +44,8 @@ Then you are all done! When you pick up the receiver you should simply be able t
 2. The most important part of this is to ensure that whatever button or switch is activating and deactivating Mycroft is wired correctly. The code in this git is set up to activate when the button-circuit is open (i.e. the button is not being pressed), and deactivate it when closed (i.e. when the button is being pressed).
 
     
-3. The relay is used to ensure Mycroft cannot listen, until it is activated, but physically disconnecting the microphone wire from the output. Those less privacy-concerned do not have to include the relay, the skill itself gives instructions to mute the mic, however Mycroft will still listen for the activation phrase.  
+3. The relay is used to ensure Mycroft cannot listen, until it is activated, but physically disconnecting the microphone wire from the output. Those less privacy-concerned do not have to include the relay, the skill itself gives instructions to mute the mic, however Mycroft will still listen for the activation phrase.
+    * It is important to ensure that the microphone is connected to the NO (normally open) side of the relay. This way it will activate when the phone is picked up, and deactivate when it is put down.   
 
 
 # Circuit Diagram
